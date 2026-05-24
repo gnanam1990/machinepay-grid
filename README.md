@@ -9,7 +9,7 @@ It demonstrates an autonomous machine-commerce loop:
 3. If profitable, the agent creates a USDC-style payment authorization.
 4. The ledger tracks verified and batched settlement states for Arc and Circle.
 
-![MachinePay Grid desktop demo](docs/assets/machinepay-grid-demo.png)
+![MachinePay Grid proof demo](docs/assets/machinepay-grid-proof-demo.png)
 
 ## Open the demo
 

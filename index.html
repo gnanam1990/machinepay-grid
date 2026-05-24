@@ -142,6 +142,25 @@
             </div>
           </div>
 
+          <div class="proof-card" aria-label="Settlement proof packet">
+            <div>
+              <span>Authorization Digest</span>
+              <strong id="proofAuthId">Awaiting profitable cycle</strong>
+            </div>
+            <div>
+              <span>Circle Route</span>
+              <strong id="proofRoute">Nanopayments mock</strong>
+            </div>
+            <div>
+              <span>Arc Batch</span>
+              <strong id="proofBatch">pending</strong>
+            </div>
+            <div>
+              <span>Policy</span>
+              <strong id="proofPolicy">0.24 USDC/hour cap</strong>
+            </div>
+          </div>
+
           <ol id="ledgerList" class="ledger-list" aria-label="Payment authorizations"></ol>
         </article>
       </section>
@@ -152,13 +171,13 @@
           <h2>Machine price signal to Arc settlement</h2>
         </div>
         <div class="flow-grid">
-          <div class="flow-node">Solar Node</div>
+          <div class="flow-node">Solar Node<span>price oracle</span></div>
           <div class="flow-arrow"></div>
-          <div class="flow-node">Buyer Agent</div>
+          <div class="flow-node">Buyer Agent<span>policy engine</span></div>
           <div class="flow-arrow"></div>
-          <div class="flow-node">Circle Gateway</div>
+          <div class="flow-node">Circle Rail<span>USDC auth</span></div>
           <div class="flow-arrow"></div>
-          <div class="flow-node">Arc Testnet</div>
+          <div class="flow-node">Arc Testnet<span>batch proof</span></div>
         </div>
       </section>
     </main>

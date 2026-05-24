@@ -189,7 +189,8 @@ h2 {
 .metric-grid span,
 .controls-grid span,
 .payment-summary span,
-.decision-readout span {
+.decision-readout span,
+.proof-card span {
   display: block;
   color: var(--muted);
   font-size: 12px;
@@ -200,7 +201,8 @@ h2 {
 .metric-grid strong,
 .controls-grid strong,
 .payment-summary strong,
-.decision-readout strong {
+.decision-readout strong,
+.proof-card strong {
   display: block;
   margin-top: 5px;
   font-size: 16px;
@@ -361,6 +363,26 @@ h2 {
   background: var(--panel-strong);
 }
 
+.proof-card {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #ecf5f2;
+  border: 1px solid #cce2dc;
+}
+
+.proof-card div {
+  min-width: 0;
+}
+
+.proof-card strong {
+  font-size: 13px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
 .decision-core {
   position: relative;
   display: grid;
@@ -411,8 +433,8 @@ input[type="range"] {
 .ledger-list {
   display: grid;
   gap: 8px;
-  min-height: 312px;
-  max-height: 312px;
+  min-height: 198px;
+  max-height: 198px;
   overflow: auto;
   margin: 14px 0 0;
   padding: 0;
@@ -458,6 +480,7 @@ input[type="range"] {
 .flow-node {
   display: grid;
   place-items: center;
+  gap: 4px;
   min-height: 58px;
   padding: 10px;
   border-radius: 8px;
@@ -465,6 +488,13 @@ input[type="range"] {
   border: 1px solid var(--line);
   font-weight: 800;
   text-align: center;
+}
+
+.flow-node span {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
 }
 
 .flow-arrow {

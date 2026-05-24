@@ -7,6 +7,7 @@ const requiredFiles = [
   "app.js",
   "README.md",
   "docs/proposal.md",
+  "docs/assets/machinepay-grid-proof-demo.png",
   "docs/assets/machinepay-grid-demo.png",
   "docs/assets/machinepay-grid-mobile-top.png",
   "docs/assets/machinepay-grid-mobile-mid.png",
@@ -72,7 +73,7 @@ const proposal = await readFile("docs/proposal.md", "utf8");
 assertIncludes("index.html", html, requiredHtmlSnippets);
 assertIncludes("app.js", app, requiredAppSnippets);
 assertIncludes("docs/proposal.md", proposal, requiredProposalSnippets);
-assertIncludes("README.md", readme, ["docs/assets/machinepay-grid-demo.png", "python3 -m http.server 4173"]);
+assertIncludes("README.md", readme, ["docs/assets/machinepay-grid-proof-demo.png", "python3 -m http.server 4173"]);
 
 assertNoDraftMarkers("index.html", html);
 assertNoDraftMarkers("app.js", app);

@@ -36,6 +36,10 @@ const els = {
   authorizationCount: document.querySelector("#authorizationCount"),
   ledgerBadge: document.querySelector("#ledgerBadge"),
   ledgerList: document.querySelector("#ledgerList"),
+  proofAuthId: document.querySelector("#proofAuthId"),
+  proofRoute: document.querySelector("#proofRoute"),
+  proofBatch: document.querySelector("#proofBatch"),
+  proofPolicy: document.querySelector("#proofPolicy"),
   canvas: document.querySelector("#profitCanvas"),
 };
 
@@ -47,6 +51,18 @@ function money(value, digits = 6) {
 
 function shortId() {
   return `auth_${Math.random().toString(16).slice(2, 8)}`;
+}
+
+function pseudoDigest(input) {
+  let hash = 2166136261;
+  for (let index = 0; index < input.length; index += 1) {
+    hash ^= input.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+
+  const left = (hash >>> 0).toString(16).padStart(8, "0");
+  const right = Math.abs(Math.imul(hash, 2654435761)).toString(16).padStart(8, "0").slice(0, 8);
+  return `0x${left}${right}`;
 }
 
 function getControls() {
@@ -85,18 +101,30 @@ function authorizePayment(reason = "auto") {
   const amount = state.spotPrice;
   if (state.balance < amount) return false;
 
+  const sequence = state.authorizations.length + 1;
+  const id = shortId();
+  const timestamp = new Date();
+  const status = sequence % 4 === 0 ? "batched" : "verified";
+  const arcBatch = status === "batched" ? `arc_batch_${String(Math.ceil(sequence / 4)).padStart(3, "0")}` : "pending";
+  const digest = pseudoDigest(`${id}:${money(amount)}:${state.cycle}:${timestamp.toISOString()}`);
+  const { hourlyLimit } = getControls();
+
   state.balance -= amount;
   state.totalSpend += amount;
   state.powerBought += 10;
 
   state.authorizations.unshift({
-    id: shortId(),
+    id,
     amount,
+    arcBatch,
+    digest,
     reason,
     price: state.spotPrice,
     power: state.availablePower,
-    timestamp: new Date(),
-    status: state.authorizations.length % 4 === 3 ? "batched" : "verified",
+    timestamp,
+    status,
+    route: "Circle Nanopayments",
+    policy: `${money(hourlyLimit, 2)} USDC/hour cap`,
   });
 
   return true;
@@ -152,12 +180,28 @@ function updateView(expectedMargin = 0) {
   els.authorizationCount.textContent = state.authorizations.length;
   els.ledgerBadge.textContent = `${state.authorizations.filter((item) => item.status === "batched").length} Settled`;
   els.settlementStatus.textContent = state.authorizations.length ? "Batching" : "Ready";
+  els.proofPolicy.textContent = `${money(getControls().hourlyLimit, 2)} USDC/hour cap`;
 
   els.solarMode.textContent = state.availablePower > 330 ? "Selling" : "Limited";
   els.solarMode.className = state.availablePower > 330 ? "badge success" : "badge warning";
 
+  renderProof();
   renderLedger();
   drawChart();
+}
+
+function renderProof() {
+  const latest = state.authorizations.find((item) => item.status === "batched") || state.authorizations[0];
+  if (!latest) {
+    els.proofAuthId.textContent = "Awaiting profitable cycle";
+    els.proofRoute.textContent = "Nanopayments mock";
+    els.proofBatch.textContent = "pending";
+    return;
+  }
+
+  els.proofAuthId.textContent = latest.digest;
+  els.proofRoute.textContent = latest.route;
+  els.proofBatch.textContent = latest.arcBatch;
 }
 
 function renderLedger() {
@@ -188,6 +232,10 @@ function renderLedger() {
       <div class="ledger-row">
         <span>${item.reason} buy at ${money(item.price, 4)} USDC</span>
         <span>${item.power} W</span>
+      </div>
+      <div class="ledger-row">
+        <span>${item.route}</span>
+        <span>${item.arcBatch}</span>
       </div>
     `;
     els.ledgerList.append(li);
