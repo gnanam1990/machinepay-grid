@@ -42,10 +42,10 @@ Replace the mock payment authorization with Circle test wallet and Nanopayments 
 
 ## Links to fill before final submission
 
-- GitHub repository: add after pushing the repo.
-- Live demo URL: add after deploy.
-- Demo video: add after recording.
-- Questbook submission: add after form submission.
+- GitHub repository: https://github.com/gnanam1990/machinepay-grid
+- Live demo URL: https://gnanam1990.github.io/machinepay-grid/
+- Demo video: pending recording.
+- Questbook submission: pending final form submission.
 
 ## Suggested Questbook answer
 

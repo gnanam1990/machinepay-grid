@@ -13,6 +13,8 @@ It demonstrates an autonomous machine-commerce loop:
 
 ## Open the demo
 
+Live demo: https://gnanam1990.github.io/machinepay-grid/
+
 Run a local static server from this folder:
 
 ```bash
@@ -32,6 +34,8 @@ The same project can be framed two ways:
 
 ## Submission package
 
+- GitHub repository: https://github.com/gnanam1990/machinepay-grid
+- Live demo: https://gnanam1990.github.io/machinepay-grid/
 - [Proposal](docs/proposal.md)
 - [Demo video script](docs/demo-video-script.md)
 - [Submission checklist and form copy](docs/submission.md)
