@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MachinePay Grid</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Arc Testnet Concept</p>
+          <h1>MachinePay Grid</h1>
+        </div>
+        <div class="topbar-actions">
+          <button id="pauseToggle" class="icon-button" type="button" aria-label="Pause simulation" title="Pause simulation">
+            <span class="pause-icon" aria-hidden="true"></span>
+          </button>
+          <button id="resetButton" class="button secondary" type="button">Reset</button>
+          <button id="forceBuyButton" class="button primary" type="button">Force Buy</button>
+        </div>
+      </header>
+
+      <section class="status-strip" aria-label="Network and wallet status">
+        <div class="status-item">
+          <span>Buyer Wallet</span>
+          <strong id="buyerWallet">0x9cA7...42E1</strong>
+        </div>
+        <div class="status-item">
+          <span>Gateway Balance</span>
+          <strong><span id="gatewayBalance">24.000000</span> USDC</strong>
+        </div>
+        <div class="status-item">
+          <span>Arc Settlement</span>
+          <strong id="settlementStatus">Ready</strong>
+        </div>
+        <div class="status-item">
+          <span>Cycle</span>
+          <strong><span id="cycleCount">0</span> / 10 sec</strong>
+        </div>
+      </section>
+
+      <section class="hero-grid" aria-label="Machine commerce simulator">
+        <article class="panel seller-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Seller Machine</p>
+              <h2>Solar Node A17</h2>
+            </div>
+            <span id="solarMode" class="badge success">Selling</span>
+          </div>
+
+          <div class="solar-visual" aria-label="Solar node output visualization">
+            <div class="sun-core"></div>
+            <div class="panel-array">
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <div class="power-flow">
+              <i></i><i></i><i></i>
+            </div>
+          </div>
+
+          <div class="metric-grid">
+            <div>
+              <span>Power Available</span>
+              <strong><span id="availablePower">420</span> W</strong>
+            </div>
+            <div>
+              <span>Spot Price</span>
+              <strong><span id="spotPrice">0.0030</span> USDC</strong>
+            </div>
+            <div>
+              <span>Seller Wallet</span>
+              <strong>0x51F2...A900</strong>
+            </div>
+            <div>
+              <span>Utilization</span>
+              <strong><span id="utilization">61</span>%</strong>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel agent-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Buyer Agent</p>
+              <h2>Compute Miner M03</h2>
+            </div>
+            <span id="agentDecision" class="badge muted">Watching</span>
+          </div>
+
+          <div class="decision-core">
+            <canvas id="profitCanvas" width="420" height="220" aria-label="Profit signal chart"></canvas>
+            <div class="decision-readout">
+              <span>Expected Margin</span>
+              <strong><span id="expectedMargin">0.0000</span> USDC</strong>
+            </div>
+          </div>
+
+          <div class="controls-grid">
+            <label>
+              <span>Revenue / 10 sec</span>
+              <input id="revenueInput" type="range" min="0.001" max="0.009" step="0.0001" value="0.0046" />
+              <strong><span id="revenueValue">0.0046</span> USDC</strong>
+            </label>
+            <label>
+              <span>Safety Margin</span>
+              <input id="marginInput" type="range" min="0" max="0.002" step="0.0001" value="0.0004" />
+              <strong><span id="marginValue">0.0004</span> USDC</strong>
+            </label>
+            <label>
+              <span>Hourly Spend Limit</span>
+              <input id="limitInput" type="range" min="0.02" max="1" step="0.01" value="0.24" />
+              <strong><span id="limitValue">0.24</span> USDC</strong>
+            </label>
+          </div>
+        </article>
+
+        <article class="panel payment-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">USDC Rail</p>
+              <h2>Nanopayment Ledger</h2>
+            </div>
+            <span id="ledgerBadge" class="badge info">0 Settled</span>
+          </div>
+
+          <div class="payment-summary">
+            <div>
+              <span>Total Spend</span>
+              <strong><span id="totalSpend">0.000000</span> USDC</strong>
+            </div>
+            <div>
+              <span>Power Bought</span>
+              <strong><span id="powerBought">0</span> sec</strong>
+            </div>
+            <div>
+              <span>Authorizations</span>
+              <strong id="authorizationCount">0</strong>
+            </div>
+          </div>
+
+          <ol id="ledgerList" class="ledger-list" aria-label="Payment authorizations"></ol>
+        </article>
+      </section>
+
+      <section class="architecture-band" aria-label="Architecture">
+        <div>
+          <p class="eyebrow">Architecture</p>
+          <h2>Machine price signal to Arc settlement</h2>
+        </div>
+        <div class="flow-grid">
+          <div class="flow-node">Solar Node</div>
+          <div class="flow-arrow"></div>
+          <div class="flow-node">Buyer Agent</div>
+          <div class="flow-arrow"></div>
+          <div class="flow-node">Circle Gateway</div>
+          <div class="flow-arrow"></div>
+          <div class="flow-node">Arc Testnet</div>
+        </div>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
