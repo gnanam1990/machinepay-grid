@@ -13,6 +13,8 @@ const requiredFiles = [
   "docs/assets/machinepay-grid-demo.png",
   "docs/assets/machinepay-grid-mobile-top.png",
   "docs/assets/machinepay-grid-mobile-mid.png",
+  "docs/assets/video/machinepay-grid-demo.mp4",
+  "docs/assets/video/machinepay-grid-demo-poster.png",
 ];
 
 const requiredHtmlSnippets = [
@@ -85,7 +87,11 @@ const submission = await readFile("docs/submission.md", "utf8");
 assertIncludes("index.html", html, requiredHtmlSnippets);
 assertIncludes("app.js", app, requiredAppSnippets);
 assertIncludes("docs/proposal.md", proposal, requiredProposalSnippets);
-assertIncludes("README.md", readme, ["docs/assets/machinepay-grid-proof-demo.png", "python3 -m http.server 4173"]);
+assertIncludes("README.md", readme, [
+  "docs/assets/machinepay-grid-proof-demo.png",
+  "python3 -m http.server 4173",
+  "docs/assets/video/machinepay-grid-demo.mp4",
+]);
 assertIncludes("docs/demo-video-script.md", demoScript, ["0:00", "0:15", "0:55", "1:10", "Call to action"]);
 assertIncludes("docs/submission.md", submission, requiredSubmissionSnippets);
 

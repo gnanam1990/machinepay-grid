@@ -36,6 +36,7 @@ The same project can be framed two ways:
 
 - GitHub repository: https://github.com/gnanam1990/machinepay-grid
 - Live demo: https://gnanam1990.github.io/machinepay-grid/
+- Demo video: https://gnanam1990.github.io/machinepay-grid/docs/assets/video/machinepay-grid-demo.mp4
 - [Proposal](docs/proposal.md)
 - [Demo video script](docs/demo-video-script.md)
 - [Submission checklist and form copy](docs/submission.md)

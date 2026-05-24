@@ -44,7 +44,7 @@ Replace the mock payment authorization with Circle test wallet and Nanopayments 
 
 - GitHub repository: https://github.com/gnanam1990/machinepay-grid
 - Live demo URL: https://gnanam1990.github.io/machinepay-grid/
-- Demo video: pending recording.
+- Demo video: https://gnanam1990.github.io/machinepay-grid/docs/assets/video/machinepay-grid-demo.mp4
 - Questbook submission: pending final form submission.
 
 ## Suggested Questbook answer
