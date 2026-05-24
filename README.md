@@ -30,6 +30,12 @@ The same project can be framed two ways:
 - Arc Builder Spotlight: machine-to-machine nanopayments on Arc, shown through a solar node selling electricity to an autonomous buyer agent.
 - Circle Questbook: a USDC agent-commerce network using Circle wallets, Gateway/Nanopayments, and Arc Testnet settlement.
 
+## Submission package
+
+- [Proposal](docs/proposal.md)
+- [Demo video script](docs/demo-video-script.md)
+- [Submission checklist and form copy](docs/submission.md)
+
 ## Next integration milestones
 
 - Replace mock authorizations with Circle Agent Wallet and Gateway/Nanopayments calls.
