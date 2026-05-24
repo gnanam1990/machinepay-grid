@@ -1,0 +1,21 @@
+{
+  "name": "machinepay-grid",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Autonomous machine-to-machine USDC nanopayment demo for Arc and Circle builder submissions.",
+  "scripts": {
+    "start": "python3 -m http.server 4173",
+    "check": "node --check app.js && node scripts/check.mjs",
+    "check:js": "node --check app.js",
+    "check:repo": "node scripts/check.mjs"
+  },
+  "keywords": [
+    "arc",
+    "circle",
+    "usdc",
+    "nanopayments",
+    "agents",
+    "machine-commerce"
+  ],
+  "license": "MIT"
+}
