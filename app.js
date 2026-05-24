@@ -10,15 +10,28 @@ const state = {
   availablePower: 420,
   utilization: 61,
   spotPrice: 0.003,
+  realProofActive: false,
 };
 
 const els = {
   pauseToggle: document.querySelector("#pauseToggle"),
   resetButton: document.querySelector("#resetButton"),
   forceBuyButton: document.querySelector("#forceBuyButton"),
+  refreshRealButton: document.querySelector("#refreshRealButton"),
+  apiStatus: document.querySelector("#apiStatus"),
+  realApiBadge: document.querySelector("#realApiBadge"),
+  realChain: document.querySelector("#realChain"),
+  realBlock: document.querySelector("#realBlock"),
+  realUsdc: document.querySelector("#realUsdc"),
+  realGateway: document.querySelector("#realGateway"),
+  realX402: document.querySelector("#realX402"),
+  realHttpStatus: document.querySelector("#realHttpStatus"),
+  realAmount: document.querySelector("#realAmount"),
+  realPayTo: document.querySelector("#realPayTo"),
   gatewayBalance: document.querySelector("#gatewayBalance"),
   settlementStatus: document.querySelector("#settlementStatus"),
   cycleCount: document.querySelector("#cycleCount"),
+  sellerWallet: document.querySelector("#sellerWallet"),
   availablePower: document.querySelector("#availablePower"),
   spotPrice: document.querySelector("#spotPrice"),
   utilization: document.querySelector("#utilization"),
@@ -44,9 +57,21 @@ const els = {
 };
 
 const ctx = els.canvas.getContext("2d");
+const realApiBase = window.location.port === "3337" ? "" : "http://localhost:3337";
 
 function money(value, digits = 6) {
   return Number(value).toFixed(digits);
+}
+
+function shortAddress(value) {
+  if (!value || value.length < 14) return value || "unavailable";
+  return `${value.slice(0, 6)}...${value.slice(-4)}`;
+}
+
+async function getJson(path) {
+  const response = await fetch(`${realApiBase}${path}`, { cache: "no-store" });
+  if (!response.ok) throw new Error(`${path} returned ${response.status}`);
+  return response.json();
 }
 
 function shortId() {
@@ -169,8 +194,8 @@ function tick(force = false) {
 }
 
 function updateView(expectedMargin = 0) {
-  els.gatewayBalance.textContent = money(state.balance);
-  els.cycleCount.textContent = state.cycle;
+  if (!state.realProofActive) els.gatewayBalance.textContent = money(state.balance);
+  if (els.cycleCount) els.cycleCount.textContent = state.cycle;
   els.availablePower.textContent = state.availablePower;
   els.spotPrice.textContent = money(state.spotPrice, 4);
   els.utilization.textContent = state.utilization;
@@ -178,9 +203,11 @@ function updateView(expectedMargin = 0) {
   els.totalSpend.textContent = money(state.totalSpend);
   els.powerBought.textContent = state.powerBought;
   els.authorizationCount.textContent = state.authorizations.length;
-  els.ledgerBadge.textContent = `${state.authorizations.filter((item) => item.status === "batched").length} Settled`;
-  els.settlementStatus.textContent = state.authorizations.length ? "Batching" : "Ready";
-  els.proofPolicy.textContent = `${money(getControls().hourlyLimit, 2)} USDC/hour cap`;
+  els.ledgerBadge.textContent = `${state.authorizations.filter((item) => item.status === "batched").length} Sim Settled`;
+  if (!state.realProofActive) {
+    els.settlementStatus.textContent = state.authorizations.length ? "Sim Batching" : "Ready";
+  }
+  if (!state.realProofActive) els.proofPolicy.textContent = `${money(getControls().hourlyLimit, 2)} USDC/hour cap`;
 
   els.solarMode.textContent = state.availablePower > 330 ? "Selling" : "Limited";
   els.solarMode.className = state.availablePower > 330 ? "badge success" : "badge warning";
@@ -191,10 +218,12 @@ function updateView(expectedMargin = 0) {
 }
 
 function renderProof() {
+  if (state.realProofActive) return;
+
   const latest = state.authorizations.find((item) => item.status === "batched") || state.authorizations[0];
   if (!latest) {
     els.proofAuthId.textContent = "Awaiting profitable cycle";
-    els.proofRoute.textContent = "Nanopayments mock";
+    els.proofRoute.textContent = "Local simulator";
     els.proofBatch.textContent = "pending";
     return;
   }
@@ -202,6 +231,56 @@ function renderProof() {
   els.proofAuthId.textContent = latest.digest;
   els.proofRoute.textContent = latest.route;
   els.proofBatch.textContent = latest.arcBatch;
+}
+
+async function refreshRealProof() {
+  els.realApiBadge.textContent = "Checking";
+  els.realApiBadge.className = "badge warning";
+  if (els.apiStatus) els.apiStatus.textContent = "Checking";
+
+  try {
+    const [health, arc, proof, telemetry] = await Promise.all([
+      getJson("/health"),
+      getJson("/api/arc-health"),
+      getJson("/api/x402-proof"),
+      getJson("/telemetry"),
+    ]);
+
+    const requirement = proof.selectedRequirement || {};
+    const verifier = requirement.extra?.verifyingContract || proof.proof?.verifyingContract;
+
+    els.realApiBadge.textContent = proof.ok ? "Real 402" : "Needs Check";
+    els.realApiBadge.className = proof.ok ? "badge success" : "badge warning";
+    if (els.apiStatus) els.apiStatus.textContent = proof.ok ? "402 Ready" : "Check Route";
+    els.settlementStatus.textContent = arc.ok ? `Block ${arc.blockNumber}` : "RPC Check";
+    els.gatewayBalance.textContent = health.mode === "real-seller-address" ? "Gateway" : "Set .env";
+    state.realProofActive = true;
+
+    els.realChain.textContent = String(arc.chainId);
+    els.realBlock.textContent = arc.blockNumber;
+    els.realUsdc.textContent = shortAddress(arc.usdc.address);
+    els.realGateway.textContent = arc.gatewayWallet.hasCode ? shortAddress(arc.gatewayWallet.address) : "No code";
+    els.realX402.textContent = proof.decoded?.resource?.url || "/power";
+    els.realHttpStatus.textContent = `${proof.status} Payment Required`;
+    els.realAmount.textContent = `${requirement.amount || proof.proof?.amount || "0"} atomic USDC`;
+    els.realPayTo.textContent = shortAddress(requirement.payTo || proof.proof?.payTo);
+
+    els.sellerWallet.textContent = shortAddress(health.sellerAddress);
+    els.availablePower.textContent = telemetry.availableWatts;
+    els.spotPrice.textContent = money(Number(telemetry.priceUsd), 4);
+    els.utilization.textContent = telemetry.utilizationPct;
+    els.proofAuthId.textContent = "PAYMENT-REQUIRED";
+    els.proofRoute.textContent = "Circle Gateway x402";
+    els.proofBatch.textContent = requirement.network || "eip155:5042002";
+    els.proofPolicy.textContent = verifier ? shortAddress(verifier) : "Gateway verifier";
+  } catch (error) {
+    state.realProofActive = false;
+    els.realApiBadge.textContent = "Backend Offline";
+    els.realApiBadge.className = "badge danger";
+    if (els.apiStatus) els.apiStatus.textContent = "Offline";
+    els.realHttpStatus.textContent = "No local API";
+    els.realBlock.textContent = "unavailable";
+  }
 }
 
 function renderLedger() {
@@ -339,6 +418,7 @@ els.pauseToggle.addEventListener("click", () => {
 
 els.resetButton.addEventListener("click", reset);
 els.forceBuyButton.addEventListener("click", () => tick(true));
+els.refreshRealButton.addEventListener("click", refreshRealProof);
 
 for (const input of [els.revenueInput, els.marginInput, els.limitInput]) {
   input.addEventListener("input", () => {
@@ -349,6 +429,8 @@ for (const input of [els.revenueInput, els.marginInput, els.limitInput]) {
 }
 
 reset();
+refreshRealProof();
 setInterval(() => {
   if (!state.paused) tick();
 }, 2200);
+setInterval(refreshRealProof, 30000);

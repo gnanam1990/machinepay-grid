@@ -10,7 +10,7 @@
     <main class="app-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Arc Testnet Concept</p>
+          <p class="eyebrow">Arc Testnet x402 App</p>
           <h1>MachinePay Grid</h1>
         </div>
         <div class="topbar-actions">
@@ -18,7 +18,8 @@
             <span class="pause-icon" aria-hidden="true"></span>
           </button>
           <button id="resetButton" class="button secondary" type="button">Reset</button>
-          <button id="forceBuyButton" class="button primary" type="button">Force Buy</button>
+          <button id="forceBuyButton" class="button secondary" type="button">Sim Buy</button>
+          <button id="refreshRealButton" class="button primary" type="button">Refresh x402</button>
         </div>
       </header>
 
@@ -32,13 +33,60 @@
           <strong><span id="gatewayBalance">24.000000</span> USDC</strong>
         </div>
         <div class="status-item">
-          <span>Arc Settlement</span>
+          <span>Arc RPC</span>
           <strong id="settlementStatus">Ready</strong>
         </div>
         <div class="status-item">
-          <span>Cycle</span>
-          <strong><span id="cycleCount">0</span> / 10 sec</strong>
+          <span>x402 API</span>
+          <strong id="apiStatus">Checking</strong>
         </div>
+      </section>
+
+      <section class="real-grid" aria-label="Real Arc and Circle testnet status">
+        <article class="panel real-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Live Testnet Rail</p>
+              <h2>Circle Gateway x402 on Arc</h2>
+            </div>
+            <span id="realApiBadge" class="badge warning">Checking</span>
+          </div>
+
+          <div class="real-proof-grid">
+            <div>
+              <span>Arc Chain</span>
+              <strong id="realChain">5042002</strong>
+            </div>
+            <div>
+              <span>Latest Block</span>
+              <strong id="realBlock">checking</strong>
+            </div>
+            <div>
+              <span>USDC Contract</span>
+              <strong id="realUsdc">0x3600...0000</strong>
+            </div>
+            <div>
+              <span>Gateway Wallet</span>
+              <strong id="realGateway">0x0077...19B9</strong>
+            </div>
+            <div>
+              <span>Paid Route</span>
+              <strong id="realX402">/power</strong>
+            </div>
+            <div>
+              <span>HTTP Proof</span>
+              <strong id="realHttpStatus">waiting</strong>
+            </div>
+            <div>
+              <span>Payment Amount</span>
+              <strong id="realAmount">100 atomic USDC</strong>
+            </div>
+            <div>
+              <span>Seller PayTo</span>
+              <strong id="realPayTo">checking</strong>
+            </div>
+          </div>
+        </article>
       </section>
 
       <section class="hero-grid" aria-label="Machine commerce simulator">
@@ -73,7 +121,7 @@
             </div>
             <div>
               <span>Seller Wallet</span>
-              <strong>0x51F2...A900</strong>
+              <strong id="sellerWallet">0x51F2...A900</strong>
             </div>
             <div>
               <span>Utilization</span>
@@ -122,7 +170,7 @@
           <div class="panel-heading">
             <div>
               <p class="eyebrow">USDC Rail</p>
-              <h2>Nanopayment Ledger</h2>
+              <h2>Simulator Ledger</h2>
             </div>
             <span id="ledgerBadge" class="badge info">0 Settled</span>
           </div>

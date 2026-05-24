@@ -7,7 +7,7 @@ It has two layers:
 - A browser dashboard that demonstrates the autonomous machine-commerce loop.
 - A real x402 seller and buyer path using Circle Gateway Nanopayments on Arc Testnet.
 
-![MachinePay Grid proof demo](docs/assets/machinepay-grid-proof-demo.png)
+![MachinePay Grid real x402 proof](docs/assets/machinepay-grid-real-x402.png)
 
 ## Browser demo
 

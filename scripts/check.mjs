@@ -19,6 +19,7 @@ const requiredFiles = [
   "docs/demo-video-script.md",
   "docs/submission.md",
   "docs/final-checklist.md",
+  "docs/assets/machinepay-grid-real-x402.png",
   "docs/assets/machinepay-grid-proof-demo.png",
   "docs/assets/machinepay-grid-demo.png",
   "docs/assets/machinepay-grid-mobile-top.png",
@@ -32,6 +33,8 @@ const requiredHtmlSnippets = [
   '<script src="./app.js"></script>',
   'id="pauseToggle"',
   'id="forceBuyButton"',
+  'id="refreshRealButton"',
+  'id="realApiBadge"',
   'id="ledgerList"',
   'aria-label="Architecture"',
 ];
@@ -43,6 +46,8 @@ const requiredAppSnippets = [
   "settlementStatus",
   "ledgerBadge",
   "drawChart",
+  "refreshRealProof",
+  "PAYMENT-REQUIRED",
 ];
 
 const requiredPackageScripts = [
@@ -128,7 +133,7 @@ assertIncludes("docs/real-testnet.md", realTestnet, [
   "402 Payment Required",
 ]);
 assertIncludes("README.md", readme, [
-  "docs/assets/machinepay-grid-proof-demo.png",
+  "docs/assets/machinepay-grid-real-x402.png",
   "npm run dev",
   "npm run pay:real",
   "docs/assets/video/machinepay-grid-demo.mp4",

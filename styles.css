@@ -190,7 +190,8 @@ h2 {
 .controls-grid span,
 .payment-summary span,
 .decision-readout span,
-.proof-card span {
+.proof-card span,
+.real-proof-grid span {
   display: block;
   color: var(--muted);
   font-size: 12px;
@@ -202,7 +203,8 @@ h2 {
 .controls-grid strong,
 .payment-summary strong,
 .decision-readout strong,
-.proof-card strong {
+.proof-card strong,
+.real-proof-grid strong {
   display: block;
   margin-top: 5px;
   font-size: 16px;
@@ -215,6 +217,33 @@ h2 {
   grid-template-columns: minmax(280px, 0.96fr) minmax(340px, 1.2fr) minmax(300px, 0.92fr);
   gap: 14px;
   align-items: stretch;
+}
+
+.real-grid {
+  margin-bottom: 14px;
+}
+
+.real-panel {
+  box-shadow: none;
+}
+
+.real-proof-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.real-proof-grid div {
+  min-width: 0;
+  padding: 12px;
+  border-radius: 8px;
+  background: #ecf5f2;
+  border: 1px solid #cce2dc;
+}
+
+.real-proof-grid strong {
+  font-size: 13px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
 .panel {
@@ -545,6 +574,7 @@ input[type="range"] {
   }
 
   .status-strip,
+  .real-proof-grid,
   .hero-grid,
   .controls-grid,
   .metric-grid,

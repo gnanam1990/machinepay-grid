@@ -16,7 +16,7 @@ export function getSellerAddress() {
   const envAddress = process.env.SELLER_ADDRESS;
   if (envAddress && /^0x[a-fA-F0-9]{40}$/.test(envAddress)) return envAddress as Address;
 
-  return "0x000000000000000000000000000000000000dEaD" as Address;
+  throw new Error("SELLER_ADDRESS is required and must be a 0x-prefixed EVM address.");
 }
 
 export function requirePrivateKey() {
@@ -29,5 +29,5 @@ export function requirePrivateKey() {
 }
 
 export function isDemoSellerAddress() {
-  return getSellerAddress().toLowerCase() === "0x000000000000000000000000000000000000dead";
+  return false;
 }
