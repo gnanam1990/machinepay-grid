@@ -40,6 +40,7 @@ The same project can be framed two ways:
 - [Proposal](docs/proposal.md)
 - [Demo video script](docs/demo-video-script.md)
 - [Submission checklist and form copy](docs/submission.md)
+- [Final submission checklist](docs/final-checklist.md)
 
 ## Next integration milestones
 

@@ -9,6 +9,7 @@ const requiredFiles = [
   "docs/proposal.md",
   "docs/demo-video-script.md",
   "docs/submission.md",
+  "docs/final-checklist.md",
   "docs/assets/machinepay-grid-proof-demo.png",
   "docs/assets/machinepay-grid-demo.png",
   "docs/assets/machinepay-grid-mobile-top.png",
@@ -83,6 +84,7 @@ const readme = await readFile("README.md", "utf8");
 const proposal = await readFile("docs/proposal.md", "utf8");
 const demoScript = await readFile("docs/demo-video-script.md", "utf8");
 const submission = await readFile("docs/submission.md", "utf8");
+const finalChecklist = await readFile("docs/final-checklist.md", "utf8");
 
 assertIncludes("index.html", html, requiredHtmlSnippets);
 assertIncludes("app.js", app, requiredAppSnippets);
@@ -94,6 +96,13 @@ assertIncludes("README.md", readme, [
 ]);
 assertIncludes("docs/demo-video-script.md", demoScript, ["0:00", "0:15", "0:55", "1:10", "Call to action"]);
 assertIncludes("docs/submission.md", submission, requiredSubmissionSnippets);
+assertIncludes("docs/final-checklist.md", finalChecklist, [
+  "GitHub repository",
+  "Live demo",
+  "Demo video",
+  "Questbook",
+  "Final submit",
+]);
 
 assertNoDraftMarkers("index.html", html);
 assertNoDraftMarkers("app.js", app);
@@ -102,5 +111,6 @@ assertNoDraftMarkers("README.md", readme);
 assertNoDraftMarkers("docs/proposal.md", proposal);
 assertNoDraftMarkers("docs/demo-video-script.md", demoScript);
 assertNoDraftMarkers("docs/submission.md", submission);
+assertNoDraftMarkers("docs/final-checklist.md", finalChecklist);
 
 console.info("MachinePay Grid repo checks passed.");
