@@ -12,6 +12,9 @@
 
 - Open the live demo and click Force Buy four times.
 - Confirm the proof packet shows Circle Nanopayments and an Arc batch id.
+- Run `npm run arc:check`.
+- Run `npm run server`, then confirm `curl -i http://localhost:3337/power` returns `402 Payment Required`.
+- If a funded testnet EOA is available, run `npm run pay:real`.
 - Open the demo video link and confirm the MP4 plays.
 - Paste the project description from docs/submission.md.
 - Use the GitHub repository and live demo links above.

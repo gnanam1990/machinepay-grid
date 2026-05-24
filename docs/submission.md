@@ -18,7 +18,7 @@ Machines and AI agents need to buy very small resource units in real time. Exist
 
 ## Solution
 
-MachinePay Grid demonstrates a seller machine broadcasting price and capacity, a buyer agent enforcing profitability and spend policy, and a USDC authorization ledger that can settle through Arc.
+MachinePay Grid demonstrates a seller machine broadcasting price and capacity, a buyer agent enforcing profitability and spend policy, and a real x402 paid API path that uses Circle Gateway Nanopayments on Arc Testnet.
 
 ## Why Arc
 
@@ -26,19 +26,22 @@ Arc is the right settlement layer for stablecoin-native machine commerce because
 
 ## Why Circle
 
-Circle provides the wallet, USDC balance, Gateway or Nanopayments route, and future policy controls needed for autonomous agents to safely authorize payments.
+Circle provides the Gateway Nanopayments route, USDC balance layer, and x402 authorization flow needed for autonomous agents to safely authorize payments.
 
-## Current MVP
+## Current build
 
 - Simulated solar seller with dynamic power and spot price.
 - Buyer agent with revenue, margin, and hourly spend policy.
 - USDC-style authorization ledger.
 - Proof packet showing authorization digest, Circle route, Arc batch, and policy.
 - Responsive web demo for reviewers.
+- Real Express seller API that returns `402 Payment Required` for unpaid `/power` requests.
+- Real buyer script that uses Circle `GatewayClient` on `arcTestnet`.
+- Arc Testnet health check verifying RPC, chain id, USDC, and Gateway Wallet bytecode.
 
 ## Next milestone
 
-Replace the mock payment authorization with Circle test wallet and Nanopayments or Gateway calls, then attach Arc Testnet transaction hashes to the ledger.
+Fund a dedicated testnet buyer wallet, run `npm run pay:real`, and attach the produced Gateway transaction ID to the browser ledger and final video.
 
 ## Links to fill before final submission
 
@@ -49,6 +52,6 @@ Replace the mock payment authorization with Circle test wallet and Nanopayments 
 
 ## Suggested Questbook answer
 
-MachinePay Grid is a resource market for autonomous machines and AI agents. In the MVP, a simulated solar node publishes power availability and a 10-second USDC price. A buyer agent evaluates profitability, enforces an hourly spend limit, and creates a nanopayment authorization when the trade makes sense. The dashboard shows the payment ledger, Circle route, Arc batch proof, and policy state.
+MachinePay Grid is a resource market for autonomous machines and AI agents. A simulated solar node publishes power availability and a 10-second USDC price. A buyer agent evaluates profitability and spend policy, while the real seller API protects `/power` with x402. Unpaid requests return `402 Payment Required`; a funded buyer EOA can pay through Circle Gateway Nanopayments on Arc Testnet.
 
-This fits Circle because USDC is the native payment unit, and the production path uses Circle Agent Wallets plus Gateway or Nanopayments for safe, high-frequency authorization. It fits Arc because Arc becomes the stablecoin settlement layer for batched machine payments. The project can expand from solar power into compute, API data, storage, and connectivity.
+This fits Circle because USDC is the native payment unit and the project now uses Circle Gateway Nanopayments for high-frequency authorization. It fits Arc because Arc Testnet is the stablecoin settlement layer used by the real buyer/seller scripts. The project can expand from solar power into compute, API data, storage, and connectivity.

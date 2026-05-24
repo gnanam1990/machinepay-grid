@@ -1,27 +1,65 @@
 # MachinePay Grid
 
-MachinePay Grid is a pitch-ready MVP for Arc builder events and the Circle Grants application.
+MachinePay Grid is a machine-to-machine payment project for Arc builder events and the Circle Grants application.
 
-It demonstrates an autonomous machine-commerce loop:
+It has two layers:
 
-1. A simulated solar node broadcasts a changing electricity price.
-2. A compute/miner agent evaluates whether buying power is profitable.
-3. If profitable, the agent creates a USDC-style payment authorization.
-4. The ledger tracks verified and batched settlement states for Arc and Circle.
+- A browser dashboard that demonstrates the autonomous machine-commerce loop.
+- A real x402 seller and buyer path using Circle Gateway Nanopayments on Arc Testnet.
 
 ![MachinePay Grid proof demo](docs/assets/machinepay-grid-proof-demo.png)
 
-## Open the demo
+## Browser demo
 
 Live demo: https://gnanam1990.github.io/machinepay-grid/
 
 Run a local static server from this folder:
 
 ```bash
-python3 -m http.server 4173
+npm run dev
 ```
 
 Then open `http://127.0.0.1:4173/`.
+
+## Real Arc/Circle testnet flow
+
+Install dependencies and verify Arc Testnet:
+
+```bash
+npm install
+npm run arc:check
+```
+
+Start the paid seller API:
+
+```bash
+cp .env.example .env
+# edit .env and set SELLER_ADDRESS to your Arc Testnet seller wallet
+npm run server
+```
+
+Verify the real x402 payment negotiation:
+
+```bash
+curl -i http://localhost:3337/power
+```
+
+The paid route should return `402 Payment Required` with a `PAYMENT-REQUIRED` header for Arc Testnet.
+
+Run the buyer in dry mode:
+
+```bash
+# edit .env and set PRIVATE_KEY to a funded Arc Testnet EOA
+npm run buyer
+```
+
+Execute a real Circle Gateway nanopayment:
+
+```bash
+npm run pay:real
+```
+
+`pay:real` signs a real x402 payment authorization, settles it through Circle Gateway Nanopayments, and writes the latest receipt to `artifacts/latest-payment.json`.
 
 ## Grant framing
 
@@ -38,13 +76,14 @@ The same project can be framed two ways:
 - Live demo: https://gnanam1990.github.io/machinepay-grid/
 - Demo video: https://gnanam1990.github.io/machinepay-grid/docs/assets/video/machinepay-grid-demo.mp4
 - [Proposal](docs/proposal.md)
+- [Real Arc/Circle testnet guide](docs/real-testnet.md)
 - [Demo video script](docs/demo-video-script.md)
 - [Submission checklist and form copy](docs/submission.md)
 - [Final submission checklist](docs/final-checklist.md)
 
 ## Next integration milestones
 
-- Replace mock authorizations with Circle Agent Wallet and Gateway/Nanopayments calls.
-- Add Arc Testnet transaction proofs and ArcScan links.
+- Connect the browser dashboard to the local paid seller API.
+- Add ArcScan links from real Gateway settlement transaction IDs.
 - Add machine identity, spend limits, and policy controls.
 - Add second marketplace resource type: compute or API data.
